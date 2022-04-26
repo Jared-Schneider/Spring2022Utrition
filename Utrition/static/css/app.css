@@ -1,0 +1,313 @@
+/* app css stylesheet */
+
+#content {
+	animation: transitionIn 0.75s;
+}
+
+@keyframes transitionIn {
+	from {
+		opacity: 0;
+		transform: rotateX(-20deg);
+	}
+
+	to {
+		opacity: 1;
+		transform: rotateX(0);
+	}
+}
+
+
+.menu {
+  list-style: none;
+  border-bottom: 0.1em solid black;
+  margin-bottom: 2em;
+  padding: 0 0 0.5em;
+}
+
+.menu:before {
+  content: "[";
+}
+
+.menu:after {
+  content: "]";
+}
+
+.menu > li {
+  display: inline;
+}
+
+.menu > li:before {
+  content: "|";
+  padding-right: 0.3em;
+}
+
+.menu > li:nth-child(1):before {
+  content: "";
+  padding: 0;
+}
+
+
+/* nested sortable copy paste */
+.container .jumbotron {
+  text-align: center;
+  border-radius: 0;
+}
+.jumbotron .btn {
+  font-size: 21px;
+  padding: 14px 24px;
+}
+
+pre {
+  border: 1px solid #CCC;
+}
+
+.code {
+  border: 1px solid #CCC;
+}
+
+
+.chapter-title {
+  background-color: #687074 !important;
+  color: #FFF !important;
+}
+
+.nestedSortable-list {
+  display: block;
+  position: relative;
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+.nestedSortable-list .nestedSortable-list {
+  padding-left: 30px;
+}
+.nestedSortable-item, .nestedSortable-placeholder {
+  display: block;
+  position: relative;
+  margin: 0px;
+  padding: 0px;
+  min-height: 20px;
+  line-height: 20px;
+}
+.nestedSortable-handle {
+  cursor: move;
+  display: block;
+  min-height: 38px;
+  margin: 5px 0;
+  padding: 8px 12px;
+  background: #f8faff;
+  border: 1px solid #dae2ea;
+  color: #7c9eb2;
+  text-decoration: none;
+  font-weight: bold;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.nestedSortable-handle:hover {
+  color: #438eb9;
+  background: #f4f6f7;
+  border-color: #dce2e8;
+}
+.nestedSortable-placeholder {
+  margin: 5px 0;
+  padding: 0;
+  min-height: 30px;
+  background: #f0f9ff;
+  border: 2px dashed #bed2db;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.nestedSortable-drag {
+  position: absolute;
+  pointer-events: none;
+  z-index: 999;
+  opacity: .8;
+}
+
+/* Index Template */
+.header {
+  background: #D3D3D3;
+  color: #ffffff;
+  padding-top: 1px;
+  text-align: center;
+  width: 100%;
+}
+
+.logo {
+  width: 50%;
+  height:50%;
+}
+
+.footer {
+  background:#D3D3D3;
+  bottom: 0px;
+  bottom: 0px;
+  padding-bottom: 20px;
+  position: fixed;
+  width: 100%;
+}
+
+/* Start Partial */
+.start {
+  text-align: center;
+}
+
+#email {
+    margin-right: 5%;
+}
+
+/* addFood Partial */
+.container.ng-scope {
+  text-align: center;
+}
+
+/* paragraph top of add food page */
+#addFoodDirections {
+  text-align: center;
+  padding: 5px;
+  font-size:medium;
+}
+
+  /* Class containing all of the input descriptions in the addFood form */
+.addFoodDescriptor {
+  width: 70%;
+  font-weight: bold;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  margin-top: 15px;
+  display: inline-block;
+  text-align: left;
+}
+
+  /* class for all of the inputs in the addFood form */
+.addFoodInput {
+  width: 70%;
+  padding-top: 0;
+}
+
+/* special instructions for getting the unit form next to quantity */
+#quantityGroup {
+    display: inline-block;
+    width: 57%;
+}
+
+#unitGroup {
+    text-align: left;
+    display: inline-block;
+    width: 30%;
+}
+
+
+  /* Button containing just the add food */
+#addFoodBtn {
+  margin: 15px;
+  background-color:#e0e0e0;
+}
+
+#completeFormBtn {
+  margin: 15px;
+}
+
+#foodList {
+  margin-top: 20px;
+}
+
+/* styles the box for each meal */
+.mealGroup { 
+  border: black solid 1px;
+  padding: 0px 10px 0px;
+  width: 80%;
+  margin-left: 10%;
+  text-align: left;
+  margin-top: 20px;
+}
+
+.mealGroup-header {
+  font-weight: bold;
+  font-size: 20px;  
+  margin-bottom: 25px;
+}
+
+/* Using CSS Flexbox to put the food item (i.e., what they ate) and a delete button on the same row */
+.foodItem-flexbox-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.foodItem {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.foodItem > p {
+  margin: 0px;
+}
+
+div.resultsDiv {
+  width: 100%;
+}
+
+div.results {
+  margin: 0px auto;
+  padding: 0px;
+  width: 70%;
+}
+
+button.results {
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+  text-align: left;
+  background-color: #ffe6cc;
+}
+
+button.results:hover {
+  background-color: #cc93b0;
+}
+
+#reminderHolder {
+    position: absolute;
+    top: 30%;
+    left:50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    background-color: #D3D3D3 !important;
+    border-radius:5px;
+    border-color: #000000;
+    border-style: solid;
+    padding: 2%;
+}
+
+.foodLabel {
+ display:inline-block;
+ text-align:left;
+ margin-right: 10px;
+}
+
+#directionReminder {
+    display: block;
+    text-align: center;
+}
+
+#yesNo {
+    display: block;
+    float: right;
+}
+
+.checkboxes {
+    float: right;
+    text-align: right;
+}
+
+#reminders {
+    display: inline-block;
+}
+
+.reminderInput {
+    margin-right: 5px !important;
+}
+

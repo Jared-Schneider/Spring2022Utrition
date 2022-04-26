@@ -1,0 +1,41 @@
+\connect utrition_dna2
+
+--------------------------------- pass test cases ---------------------------
+-- 8 pass test cases
+
+-- pass
+INSERT INTO disease (id,name) VALUES (1,'No found traces to diseases');
+
+-- pass
+INSERT INTO disease (id,name) VALUES (4,'Epilepsy');
+
+-- pass
+INSERT INTO disease (id,name) VALUES (5,'ParkinsonÃ¢â‚¬â„¢s disease');
+
+-- pass
+INSERT INTO disease (id,name) VALUES (7,'');
+
+-- pass
+INSERT INTO disease (id,name) VALUES (8,'pineapples');
+
+-- pass
+INSERT INTO disease (id,name) VALUES (55,'asthma');
+
+-- pass
+INSERT INTO disease (id,name) VALUES (77,'diabetes');
+
+-- primary key is type serial (id) which can be negative, pass
+INSERT INTO disease (id,name) VALUES (-5,'Rheumatic heart disease');
+
+-------------------------------------------------- fail test cases -------------------------------------------
+
+-- 3 fail test cases
+
+-- check NON NUll constriant on primary key (id), fail
+INSERT INTO disease (id,name) VALUES (null,'Three Vessel Coronary Disease');
+
+-- check empty value for primary key (id), fail
+INSERT INTO disease (id,name) VALUES (,'Amyotrophic lateral sclerosis');
+
+-- check NON NULL constraint on (name), fail
+INSERT INTO disease (id,name) VALUES (6,null);

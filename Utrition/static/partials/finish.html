@@ -1,0 +1,16 @@
+<div ng-show="success">
+    <p>Your data was successfully uploaded!</p>
+
+    <div id="foodList">
+     
+    </div>
+    <p>Click to download results</p>
+    <a class="btn btn-primary" href="#/add-food" role="button">Go Back</a>
+    <a class="btn btn-primary" href="/download" role="button">download</a> 
+</div>
+<div ng-show="!success">
+    <h1>ERROR</h1>
+    <p>An error occurred while submitting your food recall information. Please click on the link below to be redirected back to the food recall page</p>
+    <a href="#/add-food">Return to food recall</a>
+
+</div>

@@ -1,0 +1,14 @@
+<div>
+  <ul ui-nested-sortable="" ng-model="meals">
+    <li ng-repeat="meal in meals" ui-nested-sortable-item="">
+      <div class="btn btn-danger" ui-nested-sortable-handle>
+        {{meal.name}} {{meal.time && "- " + meal.time}}
+      </div>
+      <ul class="food" ui-sortable="sortableOptions" ng-model="meal.foods">
+        <li ng-repeat="food in meal.foods">
+            {{food.name}} {{food.quantity && "- " + food.quantity}} {{food.unit && "- " + food.unit}} {{food.description && "- " + food.description}}
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>

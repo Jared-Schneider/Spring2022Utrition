@@ -1,0 +1,100 @@
+\connect utrition_dna2
+
+------------------------- prerequisite insert statements so test cases satisfy foreign key constraint -------------------------
+
+-- 20 prerequisite values
+INSERT INTO rsid (rsid,allele) VALUES ('rs0','T');
+INSERT INTO rsid (rsid,allele) VALUES ('rs1','A');
+INSERT INTO rsid (rsid,allele) VALUES ('rs2','C');
+INSERT INTO rsid (rsid,allele) VALUES ('rs3','G');
+INSERT INTO rsid (rsid,allele) VALUES ('rs5','A');
+INSERT INTO rsid (rsid,allele) VALUES ('rs6','A');
+INSERT INTO rsid (rsid,allele) VALUES ('rs7','A');
+INSERT INTO rsid (rsid,allele) VALUES ('rs8','A');
+INSERT INTO rsid (rsid,allele) VALUES ('rs9','A');
+INSERT INTO rsid (rsid,allele) VALUES ('rs10','T');
+INSERT INTO rsid (rsid,allele) VALUES ('rs11','A');
+INSERT INTO rsid (rsid,allele) VALUES ('rs12','A');
+INSERT INTO rsid (rsid,allele) VALUES ('rs13','A');
+
+INSERT INTO disease (id, name) VALUES ('1', 'cancer');
+INSERT INTO disease (id, name) VALUES ('7', 'cancer');
+INSERT INTO disease (id, name) VALUES ('5', 'cancer');
+INSERT INTO disease (id, name) VALUES ('77', 'cancer');
+INSERT INTO disease (id, name) VALUES ('55', 'cancer');
+INSERT INTO disease (id, name) VALUES ('8', 'cancer');
+INSERT INTO disease (id, name) VALUES ('-1', 'cancer');
+
+
+
+
+------------------------------------------------- passing test cases -------------------------------------------------
+
+-- 10 pass test cases
+-- pass 
+INSERT INTO mutated_rsid (rsid,allele,disease_id) VALUES ('rs0','A',1);
+
+-- pass
+INSERT INTO mutated_rsid (rsid,allele,disease_id) VALUES ('rs0','C',1);
+
+-- pass
+INSERT INTO mutated_rsid (rsid,allele,disease_id) VALUES ('rs1','C',7);
+
+-- pass
+INSERT INTO mutated_rsid (rsid,allele,disease_id) VALUES ('rs1','T',7);
+
+-- pass
+INSERT INTO mutated_rsid (rsid,allele,disease_id) VALUES ('rs2','A',5);
+
+-- pass
+INSERT INTO mutated_rsid (rsid,allele,disease_id) VALUES ('rs3','-',5);
+
+-- pass
+INSERT INTO mutated_rsid (rsid,allele,disease_id) VALUES ('rs8','C',1);
+
+-- pass
+INSERT INTO mutated_rsid (rsid,allele,disease_id) VALUES ('rs10','C',77);
+
+-- pass
+INSERT INTO mutated_rsid (rsid,allele,disease_id) VALUES ('rs10','A',55);
+
+-- (disease_id) is foreign key to a serial value which can be nagative, pass
+INSERT INTO mutated_rsid (rsid,allele,disease_id) VALUES ('rs9','T',-1);
+
+
+
+------------------------------------------------- failing test cases --------------------------------------------------
+
+-- 10 fail test cases
+-- test 23andme's internal rsid label, fail
+INSERT INTO mutated_rsid (rsid,allele,disease_id) VALUES ('i777','T',7);
+
+-- check NOT NULL constraint on (rsid), fail
+INSERT INTO mutated_rsid (rsid,allele,disease_id) VALUES (null,'A',7);
+
+-- check empty value for (rsid), fail
+INSERT INTO mutated_rsid (rsid,allele,disease_id) VALUES ('','A',7);
+
+-- check regex on (allele), fail
+INSERT INTO mutated_rsid (rsid,allele,disease_id) VALUES ('rs5','pppppsjhdpa',5);
+
+-- check regex on (allele), fail
+INSERT INTO mutated_rsid (rsid,allele,disease_id) VALUES ('rs3','P',5);
+
+-- check NOT NULL constraint on (allele), fail
+INSERT INTO mutated_rsid (rsid,allele,disease_id) VALUES ('rs6',null,5);
+
+-- check regex on (allele), fail
+INSERT INTO mutated_rsid (rsid,allele,disease_id) VALUES ('rs7','acttttttg',8);
+
+
+-- check name of disease in (disease_id), fail
+INSERT INTO mutated_rsid (rsid,allele,disease_id) VALUES ('rs11','A','Heart disease');
+
+-- check NOT NULL in (disease_id), fail
+INSERT INTO mutated_rsid (rsid,allele,disease_id) VALUES ('rs12','G',null);
+
+-- check having no value in (disease_id), fail
+INSERT INTO mutated_rsid (rsid,allele,disease_id) VALUES ('rs13','C',);
+
+

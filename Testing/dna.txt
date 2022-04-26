@@ -1,0 +1,144 @@
+\connect utrition_final
+
+----------------------- prerequisite insert statements so that test cases can avoid foreign key constraint error -----------
+
+-- there are 7 prerequisite insert statements
+INSERT INTO users (id,first_name,last_name,email) VALUES (0,'person0','person0','person0@gmail.com');
+INSERT INTO users (id,first_name,last_name,email) VALUES (1,'person1','person1','person1@gmail.com');
+INSERT INTO users (id,first_name,last_name,email) VALUES (2,'person2','person2','person2@gmail.com');
+INSERT INTO users (id,first_name,last_name,email) VALUES (3,'person3','person3','person3@gmail.com');
+INSERT INTO users (id,first_name,last_name,email) VALUES (4,'person4','person4','person4@gmail.com');
+INSERT INTO users (id,first_name,last_name,email) VALUES (5,'person5','person5','person5@gmail.com');
+INSERT INTO users (id,first_name,last_name,email) VALUES (-5,'person-5','person1','person-5@gmail.com');
+
+
+
+------------------------------------------- test cases that should pass ----------------------------------------
+
+-- there are 30 test cases that should pass
+-- check basic entry, pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (1,'rs0','G','G');
+
+-- check negative user_id, technically allowed, pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (-5,'rs1','C','T');
+
+--checking all possible legal (allele1,allele2) tuples, each with unique (user_id, rsid) tuple to prevent error
+-- pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (3,'rs70','A','A');
+-- pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (3,'rs80','C','A');
+-- pass 
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (0,'rs40','G','A');
+-- pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (2,'rs50','T','A');
+-- pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (1,'rs60','-','A');
+-- pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (3,'rs71','A','C');
+-- pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (3,'rs81','C','C');
+-- pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (0,'rs41','G','C');
+-- pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (2,'rs51','T','C');
+-- pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (1,'rs61','-','C');
+-- pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (3,'rs72','A','G');
+-- pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (3,'rs82','C','G');
+-- pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (0,'rs42','G','G');
+-- pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (2,'rs52','T','G');
+-- pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (1,'rs62','-','G');
+-- pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (3,'rs73','A','T');
+-- pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (3,'rs83','C','T');
+-- pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (0,'rs43','G','T');
+-- pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (2,'rs53','T','T');
+-- pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (1,'rs63','-','T');
+-- pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (3,'rs74','A','-');
+-- pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (3,'rs84','C','-');
+-- pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (0,'rs44','G','-');
+-- pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (2,'rs54','T','-');
+-- pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (1,'rs64','-','-');
+
+
+-- rsid = 15 chars, pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (1,'rs1234567890123','G','A');
+
+-- check rsid = 19 chars, pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (3,'rs01234567890123456','A','T');
+
+-- check rsid = 20 chars, pass
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (3,'rs012345678901234567','A','T');
+
+
+----------------------------------------- test cases that should fail ----------------------------------
+
+
+-- there are 18 test cases that should fail
+-- check rsid > 20 chars, fail
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (3,'rs0123456789012345678','A','T');
+
+-- check regex against 23andme internal rsid label, fail
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (3,'i777','A','T');
+
+-- check NOT NULL constraint on user_id, fail
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (null,'rs0','G','A');
+
+-- check no entry to user id, fail
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (,'rs3','G','T');
+
+-- check regex on rsid, fail
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (3,'-rs1','A','A');
+
+-- check NOT NULL constriant on rsid, fail
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (5,null,'T','T');
+
+-- check empty field for rsid, fail
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (4,'','G','G');
+
+-- check regex allele1, fail
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (1,'rs9','P','G');
+
+-- check regex allele1, fail
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (1,'rs10','acttttttg','C');
+
+-- check NOT NULL constriant on allele1, fail
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (1,'rs11',null,'G');
+
+-- check empty field on allele1, fail
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (1,'rs12','','A');
+
+-- check regex on rsid, fail
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (1,'1','C','C');
+
+-- check regex on allele1, fail
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (1,'rs4','AA','A');
+
+-- check regex allele2, fail
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (1,'rs9','G','B');
+
+-- check regex allele2, fail
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (1,'rs10','T','acttttttg');
+
+-- check NOT NULL constriant on allele2, fail
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (1,'rs11','A',null);
+
+-- check empty field on allele2, fail
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (1,'rs12','A','');
+
+-- check regex on allele2, fail
+INSERT INTO dna (user_id,rsid,allele1,allele2) VALUES (1,'rs4','A','AA');

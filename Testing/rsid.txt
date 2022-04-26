@@ -1,0 +1,110 @@
+\connect utrition_final
+
+---------------------------------------------- passing test cases -------------------------------------------
+
+-- 10 passing test cases. When running these cases, it should add 
+-- 10 entries, no more and no less. This is because the ones that should fail are
+-- told to do nothing on conflict, so they wont be added
+-- should pass
+INSERT INTO rsid (rsid,allele) VALUES ('rs0','G');
+
+-- should pass
+INSERT INTO rsid (rsid,allele) VALUES ('rs1','T');
+
+-- should pass
+INSERT INTO rsid (rsid,allele) VALUES ('rs7','A');
+
+-- should pass
+INSERT INTO rsid (rsid,allele) VALUES ('rs8','T');
+
+-- should pass
+INSERT INTO rsid (rsid,allele) VALUES ('rs9','G');
+
+-- should pass
+INSERT INTO rsid (rsid,allele) VALUES ('rs10','C');
+
+-- should pass
+INSERT INTO rsid (rsid,allele) VALUES ('rs11','G');
+
+-- should pass
+INSERT INTO rsid (rsid,allele) VALUES ('rs12','A');
+
+-- should pass
+INSERT INTO rsid (rsid,allele) VALUES ('rs13','T');
+
+-- rsid is 15 chars, pass
+INSERT INTO rsid (rsid,allele) VALUES ('rs1234567890123','T');
+
+
+----------------------------------------------- failing test cases -----------------------------------------
+
+
+-- 22 fail test cases. 
+-- '-' is only available in mutated_rsid or dna table, fail
+INSERT INTO rsid (rsid,allele) VALUES ('rs2','-');
+
+-- check regex, fail
+INSERT INTO rsid (rsid,allele) VALUES ('0','C');
+
+-- check regex specifically for 23andme interal IDs, fail
+INSERT INTO rsid (rsid,allele) VALUES ('i777','A');
+
+-- check NOT NULL requirement, fail
+INSERT INTO rsid (rsid,allele) VALUES (null,'C');
+
+-- check regex, fail
+INSERT INTO rsid (rsid,allele) VALUES ('','C');
+
+-- check allele matches ACGT-, fail
+INSERT INTO rsid (rsid,allele) VALUES ('rs3','P');
+
+-- check allele matches ACGT-, fail
+INSERT INTO rsid (rsid,allele) VALUES ('rs4','acttttttg');
+
+-- check NOT NULL requirement, fail
+INSERT INTO rsid (rsid,allele) VALUES ('rs5',null);
+
+-- check allele matches ACGT-, fail
+INSERT INTO rsid (rsid,allele) VALUES ('rs6','');
+
+-- rsid over 15 chars, fail
+INSERT INTO rsid (rsid,allele) VALUES ('rs12345678901234','T');
+
+-- rsid over 15 chars, should fail
+INSERT INTO rsid (rsid,allele) VALUES ('rs123456789012345678','T');
+
+-- regex 'r' not 'rs', fail
+INSERT INTO rsid (rsid,allele) VALUES ('r12345','T');
+
+-- regex 's' not 'rs', fail
+INSERT INTO rsid (rsid,allele) VALUES ('s12345','T');
+
+-- check requirements on both attributes, fail
+INSERT INTO rsid (rsid,allele) VALUES ('s12345','X');
+
+-- check not null on both, fail
+INSERT INTO rsid (rsid,allele) VALUES (null,null);
+
+-- regex 'RS' not 'rs', fail
+INSERT INTO rsid (rsid,allele) VALUES ('RS3902459','T');
+
+-- regex both empty strings, fail
+INSERT INTO rsid (rsid,allele) VALUES ('','');
+
+-- regex 'a' not 'A', fail
+INSERT INTO rsid (rsid,allele) VALUES ('rs12345','a');
+
+-- regex 'c' not 'C', fail
+INSERT INTO rsid (rsid,allele) VALUES ('rs12345','c');
+
+-- regex 'g' not 'G', fail
+INSERT INTO rsid (rsid,allele) VALUES ('rs12345','g');
+
+-- regex 't' not 'T', fail
+INSERT INTO rsid (rsid,allele) VALUES ('rs12345','t');
+
+-- regex '_' not '-', fail
+INSERT INTO rsid (rsid,allele) VALUES ('rs12345','-');
+
+
+

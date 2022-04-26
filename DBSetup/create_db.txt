@@ -1,0 +1,322 @@
+-- Terminates all other sessions connected to the database
+-- Not strictly necessary, but useful when testing when you're creating/recreating frequently
+
+SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE pid <> pg_backend_pid() AND datname = 'utrition_final';
+
+-- FOR TESTING ONLY [When adjusting tables and testing database creation]
+
+DROP DATABASE IF EXISTS utrition_final;
+SELECT 'CREATE DATABASE utrition_final'
+WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'utrition_final')\gexec
+
+
+
+\connect utrition_final
+
+CREATE TABLE IF NOT EXISTS users(
+id serial PRIMARY KEY,
+first_name varchar(20),
+last_name varchar(20),
+email text UNIQUE NOT NULL,
+CONSTRAINT email CHECK (email SIMILAR TO '[a-zA-Z0-9][a-zA-Z0-9_\-.]*@[a-zA-Z]+[a-zA-Z0-9_\-.]*.[a-z][a-z][a-z]')
+);
+
+CREATE TABLE IF NOT EXISTS dna(
+user_id int NOT NULL,
+rsid varchar(20) NOT NULL,
+allele1 char(1) NOT NULL,
+allele2 char(1) NOT NULL,
+PRIMARY KEY (user_id, rsid),
+FOREIGN KEY (user_id) REFERENCES users(id),
+CONSTRAINT rsid CHECK (rsid SIMILAR TO 'rs(0|1|2|3|4|5|6|7|8|9)+'),
+CONSTRAINT allele1 CHECK 
+	(allele1 = 'A' OR allele1 = 'C' OR allele1 = 'G' OR allele1 = 'T' OR allele1 = '-'),
+CONSTRAINT allele2 CHECK 
+	(allele2 = 'A' OR allele2 = 'C' OR allele2 = 'G' OR allele2 = 'T' OR allele2 = '-')
+);
+
+CREATE TABLE IF NOT EXISTS rsid(
+rsid varchar(20) NOT NULL,
+allele char(1) NOT NULL,
+PRIMARY KEY (rsid),
+CONSTRAINT rsid CHECK (rsid SIMILAR TO 'rs(0|1|2|3|4|5|6|7|8|9)+'),
+CONSTRAINT allele CHECK 
+	(allele = 'A' OR allele = 'C' OR allele = 'G' OR allele = 'T')
+);
+
+
+CREATE TABLE IF NOT EXISTS disease(
+id serial PRIMARY KEY,
+name text NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS mutated_rsid(
+rsid varchar(20) NOT NULL,
+allele char(1) NOT NULL,
+disease_id  int,
+PRIMARY KEY (rsid, allele, disease_id),
+FOREIGN KEY (rsid) REFERENCES rsid(rsid),
+FOREIGN KEY (disease_id) REFERENCES disease(id),
+CONSTRAINT rsid CHECK (rsid SIMILAR TO 'rs(0|1|2|3|4|5|6|7|8|9)+'),
+CONSTRAINT allele CHECK
+	(allele = 'A' OR allele = 'C' OR allele = 'G' OR allele = 'T' OR allele = '-')
+);
+
+
+CREATE TABLE IF NOT EXISTS compound(
+	ID serial NOT NULL,
+	disease_tag text NOT NULL,
+	direction int NOT NULL,
+	compound_tag text NOT NULL);
+
+
+-- FDA_Serving_Size is stored in grams (g)
+
+CREATE TABLE IF NOT EXISTS food_info(
+	food_id int PRIMARY KEY,
+	keylist varchar(50) NOT NULL,
+	food_description varchar(250) NOT NULL,
+	short_food_description varchar(150) NOT NULL,
+	food_type char(1) NOT NULL,
+	ncc_food_group varchar(100) NOT NULL,
+	ncc_food_group_category varchar(50) NOT NULL,
+	fda_serving_size real
+);
+
+CREATE TABLE IF NOT EXISTS user_recall(
+	recall_id serial PRIMARY KEY,
+	user_id int NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+
+CREATE TABLE IF NOT EXISTS food_recalls(
+	key_id serial PRIMARY KEY,
+	recall_id int NOT NULL,
+	food_id int NOT NULL,
+	meal varchar(10) NOT NULL,
+	quantity real NOT NULL,
+	quantity_unit text NOT NULL,
+	FOREIGN KEY (recall_id) REFERENCES user_recall(recall_id),
+	FOREIGN KEY (food_id) REFERENCES food_info(food_id)
+);
+
+
+CREATE TABLE IF NOT EXISTS nutrient_densities(
+	food_id int NOT NULL,
+	form varchar(25) NOT NULL,
+	grams_per_cubicinch real NOT NULL,
+	refers_to_form varchar(25),
+	FOREIGN KEY (food_id) REFERENCES food_info(food_id)
+);
+
+
+CREATE TABLE IF NOT EXISTS Flavonoid(
+	food_id int NOT NULL,
+	cyanidin real,
+	petunidin real,
+	delphinidin real,
+	malvidin real,
+	pelargonidin real,
+	peonidin real,
+	catechin real,
+	epigallocatechin real,
+	epicatechin real,
+	epicatechin_3gallate real,
+	epigallocatechin_3gellate real,
+	theaflavin real,
+	thearubigins real,
+	eriodictyol real,
+	hesperetin real,
+	naringenin real,
+	aplgenin real,
+	luteolin real,
+	isorhamnetin real,
+	kaempferol real,
+	myricetin real,
+	quercetin real,
+	theaflavin3_3prime_digallate real,
+	theaflavin3_gallate real,
+	theaflavin_3prime_gallate real,
+	Gallocatechin real,
+	FOREIGN KEY (food_id) REFERENCES food_info(food_id)	
+);
+
+-- All the micronutrients below are measured in grams unless specifically stated.
+-- Energy kcal
+
+CREATE TABLE IF NOT EXISTS nutrients_per_common_ss(
+	food_id int NOT NULL,
+	common_portion_size_amount real NOT NULL,
+	common_portion_size_unit varchar(5) NOT NULL,
+	common_portion_size_description varchar(100) NOT NULL,
+	common_portion_size_gram_weight real NOT NULL,
+	water real,
+	energy_kcal real,
+	total_protein real,
+	nitrogen real,
+	animal_protein real,
+	vegetable_protein real,
+	gluten real,
+	total_fat real,
+	total_carbohydrate real,
+	available_carbohydrate real,
+	total_dietary_fiber real,
+	insoluble_dietary_fiber real,
+	soluble_dietary_fiber real,
+	pectins real,
+	ash real,
+	calcium real,
+	iron real,
+	magnesium real,
+	phosphorus real,
+	potassium real,
+	sodium real,
+	zinc real,
+	copper real,
+	manganese real,
+	selenium real,
+	vitamin_c real,
+	thiamin real,
+	riboflavin real,
+	niacin real,
+	pantothenic_acid real,
+	vitamin_b6 real,
+	total_folate real,
+	dietary_folate_equivalents real,
+	natural_folate real,
+	synthetic_folate real,
+	vitamin_B12 real,
+	total_vitamin_a_activity_international_units real,
+	retinol real,
+	alpha_carotene real,
+	beta_carotene real,
+	beta_cryptoxanthin real,
+	lutein_zeaxanthin real,
+	lycopene real,
+	beta_carotene_equivalents real,
+	vitamin_d real,
+	vitamin_d2 real,
+	vitamin_d3 real,
+	vitamin_e_international_units real,
+	vitamin_e_total_alpha_tocopherol real,
+	natural_alpha_tocopherol real,
+	synthetic_alpha_tocopherol real,
+	total_alpha_tocopherol_equivalents real,
+	beta_tocopherol real,
+	gamma_tocopherol real,
+	delta_tocopherol real,
+	vitamin_k real,
+	choline real,
+	betaine real,
+	total_saturated_fatty_acids real,
+	sfa_4_0 real,
+	sfa_6_0 real,
+	sfa_8_0 real,
+	sfa_10_0 real,
+	sfa_12_0 real,
+	sfa_14_0 real,
+	sfa_16_0 real,
+	sfa_17_0 real,
+	sfa_18_0 real,
+	sfa_20_0 real,
+	sfa_22_0 real,
+	total_monounsaturated_fatty_acids real,
+	mufa_14_1 real,
+	mufa_16_1 real,
+	mufa_18_1 real,
+	mufa_20_1 real,
+	mufa_22_1 real,
+	total_polyunsaturated_fatty_acids real,
+	pufa_18_2 real,
+	pufa_18_3 real,
+	pufa_18_3_n3 real,
+	pufa_18_4 real,
+	pufa_20_4 real,
+	pufa_20_5 real,
+	pufa_22_5 real,
+	pufa_22_6 real,
+	total_trans_fatty_acids real,
+	trans_16_1 real,
+	trans_18_1 real,
+	trans_18_2 real,
+	total_conjugated_linoleic_acid real,
+	cla_cis_9_trans_11 real,
+	cla_trans_10_cis_12 real,
+	solid_fats real,
+	cholesterol real,
+	tryptophan real,
+	threonine real,
+	isoleucine real,
+	leucine real,
+	lysine real,
+	methionine real,
+	cystine real,
+	phenylalanine real,
+	tyrosine real,
+	valine real,
+	arginine real,
+	histidine real,
+	alanine real,
+	aspartic_acid real,
+	glutamic_acid real,
+	glycine real,
+	proline real,
+	serine real,
+	three_methylhistidine real,
+	alcohol real,
+	caffeine real,
+	added_sugars_by_available_carbohydrate real,
+	added_sugars_by_total_sugars real,
+	total_sugars real,
+	glucose real,
+	fructose real,
+	galactose real,
+	sucrose real,
+	lactose real,
+	maltose real,
+	starch real,
+	acesulfame_potassium real,
+	aspartame real,
+	saccharin real,
+	sucralose real,
+	tagatose real,
+	sucrose_polyester real,
+	phytic_acid real,
+	oxalic_acid real,
+	daidzein real,
+	genistein real,
+	glycitein real,
+	Coumestrol real,
+	biochanin_a real,
+	formononetin real,
+	erythritol real,
+	inositol real,
+	isomalt real,
+	lactitol real,
+	maltitol real,
+	mannitol real,
+	pinitol real,
+	sorbitol real,
+	xylitol real,
+	glycemic_index_glucose_reference real,
+	glycemic_index_bread_reference real,
+	glycemic_load_glucose_reference real,
+	glycemic_load_bread_reference real,
+	percent_calories_from_protein real,
+	percent_calories_from_fat real,
+	percent_calories_from_carbohydrate real,
+	percent_calories_from_alcohol real,
+	percent_calories_from_sfa real,
+	percent_calories_from_mufa real,
+	percent_calories_from_pufa real,
+	energy_kj real,
+	polyunsaturated_to_saturated_fat_ratio real,
+	cholesterol_to_saturated_fatty_acid_index real,
+	omega_3_fatty_acids real,
+	total_vitamin_a_activity_retinol_activity_equivalents real,
+	total_vitamin_a_activity_retinol_equivalents real,
+	niacin_equivalents real,
+	FOREIGN KEY (food_id) REFERENCES food_info(food_id)
+);
+

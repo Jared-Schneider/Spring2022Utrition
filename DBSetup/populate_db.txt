@@ -1,0 +1,13 @@
+\connect utrition_final
+
+\copy food_info FROM '[PATH]/DBSetup/data/food_info.csv' DELIMITER ',' CSV HEADER;
+
+\copy compound(disease_tag,direction,compound_tag) FROM '[PATH]/DBSetup/data/compound.csv' DELIMITER ',' CSV HEADER;
+
+\copy nutrient_densities FROM '[PATH]/DBSetup/data/nutrient_densities.csv' DELIMITER ',' CSV HEADER;
+
+\copy flavonoid FROM '[PATH]/DBSetup/data/flavonoid.csv' DELIMITER ',' CSV HEADER;
+
+\copy nutrients_per_common_ss FROM '[PATH]/DBSetup/data/nutrients_per_common_ss.csv' DELIMITER ',' CSV HEADER;
+
+

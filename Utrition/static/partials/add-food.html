@@ -1,0 +1,82 @@
+<p id="addFoodDirections"> Please add any foods you have had in the last 24 hours. Group the food by when you ate them.
+    eg(breakfast, lunch, or dinner)</p>
+
+<form class="addFoodForm" name="addFoodForm">
+    <!--  -->
+    <div id="mealDiv">
+        <label class="addFoodDescriptor">Meal</label>
+        <select class="addFoodInput" id="mealSelect">
+            <option>Breakfast</option>
+            <option>Lunch</option>
+            <option>Dinner</option>
+            <option>Snack</option>
+        </select>
+    </div>
+    <div id="foodDiv">
+        <label class="addFoodDescriptor">Food</label>
+        <input ng-required = "true" minlength = 1 type = "text" class="addFoodInput" name = "foodType" id="foodType" autocomplete="off" placeholder="Food" onkeydown="search()">
+        <input type="hidden" id = "DB_food_id"/>
+        <div class="resultsDiv" id="foodResultsDiv"></div>
+    </div>
+    <div id="quantityDiv">
+        <!--  Quantity -->
+        <div id="quantityGroup">
+            <label class="addFoodDescriptor">Quantity</label>
+            <input type = "number" min = 1 class="addFoodInput" id="quantity" placeholder="Quantity" ng-required = "true">
+        </div>
+        <!--  Unit  -->
+        <div id="unitGroup">
+            <label class="addFoodDescriptor">Unit</label>
+            <select class="addFoodInput" id="unitSelect">
+                <option>oz</option>
+                <option>lbs</option>
+                <option>cups</option>
+                <option>tbsp</option>
+            </select>
+        </div>
+    </div>
+    <button class="btn btn-default" id="addFoodBtn" ng-click="update('add')">Add Food</button>
+</form>
+
+<!-- addFoodTest is in addFoodController -->
+
+<button class="btn btn-default" ng-click="update('remind')" role="button">Complete Form</button>
+
+
+<!-- food list is the general container for all foods entered so far -->
+<div id="foodList"></div>
+
+
+<!-- Reminder Boxes -->
+<div id="reminderHolder">
+    <p id="directionReminder"> Did you forget any foods?</p>
+    <p id="yesNo">No/Yes</p>
+    <div id="reminders"></div>
+    <button id="back" ng-click="update('back')">Go Back</button>
+    <button id="cont" onclick="location.href='#/finish'" type="button">Complete Form</button>
+</div>
+<a id="finishAnchor" href="#/finish" style="display:none"></a>
+
+<!-- 
+The food list above is empty to start, since they have not entered any foods when the page loads.
+As they enter foods it will be populated (via the JS in addFoodController.js) to look like this though: 
+<div id="foodList">
+
+    Each meal gets its own box:
+    <div class="mealGroup" id="Breakfast">
+        <h4 class="mealGroup-header">Breakfast</h4>
+
+        A food item. Ie, what they ate:
+        <div class="foodItem foodItem-flexbox-container">
+            <p>eggs, spicy, 1 oz</p>
+            <button class="btn btn-danger delete-food-button">Delete</button>
+        </div>
+
+        <div class="foodItem foodItem-flexbox-container">
+            <p>pancakes, with maple syrup, 3 oz</p>
+            <button class="btn btn-danger delete-food-button">Delete</button>
+        </div>
+
+    </div>
+</div>
+-->

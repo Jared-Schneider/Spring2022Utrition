@@ -1,0 +1,19 @@
+<div ng-show="success">
+	<h1>Welcome to Utrition!</h1>
+	<p>Enter the first and last name corresponding to the email </p> 
+    {{email}}
+    <p> entered on the previous page to complete account creation</p>
+    
+	<form method="post" action="/register">
+		<input minlength = 1 name = "f_name" id="f_name" placeholder="First Name" required>
+		<input minlength = 1 name = "l_name" id="l_name" placeholder="Last Name" required>
+
+		<input type="submit" name="Submit" class="btn btn-primary" value="submit" formmethod="post"/>
+		<br><a href="#/start">Return to login</a>
+	</form>
+
+</div>
+<div ng-show="!success">
+  <p>error</p>
+  {{email}}
+</div>

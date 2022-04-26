@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" ng-app="nutritionApp">
+<head>
+  <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utrition Food Recall</title>
+	<link rel="stylesheet" href="/static/lib/bootstrap/css/bootstrap.css"/>
+	<link rel="stylesheet" href="/static/lib/bootstrap/css/bootstrap-theme.css"/>
+    <link rel="stylesheet" href="/static/css/app.css"/>
+</head>
+<body>
+  <div class="header">
+  	<img class="logo" src="/static/images/EngageHealth-Color-P.png" alt="Engage Health"/>
+  </div>
+  {% block register %}{% endblock %}
+  <div class="container" ng-view id="content"> </div>
+ 
+  <div class="footer"></div>
+
+
+  <!-- In production use:
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+  -->
+  <script src="/static/lib/jquery-1.10.2.js"></script>
+  <script src="/static/lib/jquery-ui-1.10.4.js"></script>
+  <script src="/static/lib/lodash.js"></script>
+  <script src="/static/lib/angular-1.2.7/angular.js"></script>
+  <script src="static/lib/sortable.js"></script>
+  <script src="/static/lib/angular-1.2.7/angular-route.js"></script>
+  <script src="/static/lib/bootstrap/js/bootstrap.js"></script>
+  <script src="/static/js/app.js"></script>
+  <script src="/static/js/models/services.js"></script>
+  <script src="/static/js/models/foodItem.js"></script>
+  <script src="/static/js/controllers/oldControllers/detailsController.js"></script>
+  <script src="/static/js/controllers/finishController.js"></script>
+  <script src="/static/js/controllers/addFoodController.js"></script>
+  <script src="/static/js/controllers/startController.js"></script>
+  <script src="/static/js/controllers/uploadController.js"></script>
+  <script src="/static/js/controllers/returnQueryResults.js"></script>
+  <script src="/static/js/models/remindBoxes.js"></script>
+  <script src="/static/js/filters.js"></script>
+  <script src="/static/js/directives.js"></script>
+</body>
+</html>

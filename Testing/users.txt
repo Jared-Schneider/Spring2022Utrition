@@ -1,0 +1,114 @@
+\connect utrition_dna2
+
+------------------------------------------------------- passing test cases -----------------------------------------
+
+-- 19 passing test cases
+-- pass
+INSERT INTO users (id,first_name,last_name,email) VALUES (1,'Clincial','Significance','clinicalsig@gmail.com');
+
+-- pass
+INSERT INTO users (id,first_name,last_name,email) VALUES (2,'bob','Smith','asmith@gmail.com');
+
+-- (first_name) is varchar(15) so numbers are allowed, pass
+INSERT INTO users (id,first_name,last_name,email) VALUES (3,'-123','buck','valid@gmail.com');
+
+-- pass
+INSERT INTO users (id,first_name,last_name,email) VALUES (4,'aa','a','valids@gmail.com');
+
+--pass
+INSERT INTO users (id,first_name,last_name,email) VALUES (5,'Jared','Schneider','jaredschneider@gmail.com');
+
+--pass
+INSERT INTO users (id,first_name,last_name,email) VALUES (6,'Tom','Phelan','tomphelan@gmail.com');
+
+--pass
+INSERT INTO users (id,first_name,last_name,email) VALUES (7,'Stuti','Shah','stutishah@gmail.com');
+
+--pass
+INSERT INTO users (id,first_name,last_name,email) VALUES (8,'Kiera','Belford','kierabelford@gmail.com');
+
+--pass
+INSERT INTO users (id,first_name,last_name,email) VALUES (9,'Brittnay','Shine','brittnayshine@gmail.com');
+
+-- testing (email) regex, possible to not be a real email but still meet the regex, pass
+INSERT INTO users (id,first_name,last_name,email) VALUES (10,'joe','biden','joebiden@whitehouse.gov');
+
+-- testing (email) regex, possible to not be a real email but still meet the regex, pass
+INSERT INTO users (id,first_name,last_name,email) VALUES (11,'barack','obama','b4r4ck0b4m4@gmail.com');
+
+-- testing (email) regex, possible to not be a real email but still meet the regex, pass
+INSERT INTO users (id,first_name,last_name,email) VALUES (12,'name','name','namename@b.com');
+
+-- testing (email) regex, possible to not be a real email but still meet the regex, pass
+INSERT INTO users (id,first_name,last_name,email) VALUES (13,'person','one','p1@domain.org');
+
+-- testing (email) regex, possible to not be a real email but still meet the regex, pass
+INSERT INTO users (id,first_name,last_name,email) VALUES (14,'jane','doe','jane@w.xyz');
+
+-- check null on (last_name), pass
+INSERT INTO users (id,first_name,last_name,email) VALUES (15,'brutus',null,'validemail@yahoo.com');
+
+-- check (last_name) being empty, pass
+INSERT INTO users (id,first_name,last_name,email) VALUES (16,'Name Whitespace','','valid1@osu.edu');
+
+-- check null on (first_name), pass
+INSERT INTO users (id,first_name,last_name,email) VALUES (18,null,'bucks','validemail99@yahoo.com');
+
+-- check (first_name) being empty, pass
+INSERT INTO users (id,first_name,last_name,email) VALUES (19,'','buckyeyes','validemails@yahoo.com');
+
+-- serial primary key (id) can be negative, pass
+INSERT INTO users (id,first_name,last_name,email) VALUES (-5,'Francis','Stewart','fstewart@gmail.com');
+
+
+---------------------------------------------- failing test cases -----------------------------------------------
+
+-- 16 failing test cases
+-- test primary key being null, fail
+INSERT INTO users (id,first_name,last_name,email) VALUES (null,'Kenneth','Chester','kenchester@gmail.com');
+
+-- test primary key being null, fail
+INSERT INTO users (id,first_name,last_name,email) VALUES (null,'Unknown','Person','unknown@gmail.com');
+
+-- check (last_name) length > 20 characters, fail
+INSERT INTO users (id,first_name,last_name,email) VALUES (17,'firstname','prettyveryverylonglonglonglastname','okay22@gmail.com');
+
+-- check (first_name) length > 20 characters, fail
+INSERT INTO users (id,first_name,last_name,email) VALUES (20,'veryveryveryverylonglonglongnames','lastname','okay@gmail.com');
+
+-- check (email) NOT NULL constriant, fail
+INSERT INTO users (id,first_name,last_name,email) VALUES (21,'b','c',null);
+
+-- check (email) being empty, fail
+INSERT INTO users (id,first_name,last_name,email) VALUES (22,'c','d','');
+
+-- check (email) being > 50 characters, fail
+INSERT INTO users (id,first_name,last_name,email) VALUES (23,'john','doe','thisismyverylongemailaddress1234567890email@whateverdomain.com');
+
+-- check (email) regex, fail
+INSERT INTO users (id,first_name,last_name,email) VALUES (24,'a','b','apricot');
+
+-- check(email) regex, fail
+INSERT INTO users (id,first_name,last_name,email) VALUES (25,'name','name','someone@domain.comm');
+
+-- check(email) regex, fail
+INSERT INTO users (id,first_name,last_name,email) VALUES (26,'name','name','someone@domain.co');
+
+-- check(email) regex, fail
+INSERT INTO users (id,first_name,last_name,email) VALUES (27,'name','name','someone@domaincom');
+
+-- check(email) regex, fail
+INSERT INTO users (id,first_name,last_name,email) VALUES (28,'name','name','someone@.com');
+
+-- check(email) regex, fail
+INSERT INTO users (id,first_name,last_name,email) VALUES (29,'name','name','someone@domain.');
+
+-- check(email) regex, fail
+INSERT INTO users (id,first_name,last_name,email) VALUES (30,'name','name','35someone@domain.gov');
+
+-- check(email) regex, fail
+INSERT INTO users (id,first_name,last_name,email) VALUES (31,'name','name','_someone@domain.org');
+
+-- check(email) regex, fail
+INSERT INTO users (id,first_name,last_name,email) VALUES (32,'name','name','-someone@domain.net');
+

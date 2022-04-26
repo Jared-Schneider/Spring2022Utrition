@@ -1,0 +1,67 @@
+\connect utrition_final
+
+insert into users(first_name,last_name,email) values
+('Test','Woman','woman_test@gmail.com'),
+('New','Man','new@gmail.com'),
+('Another','Person','personAnother@gmail.com'),
+('Data','Tester','dataTester@gmail.com');
+
+insert into dna values
+(1,'rs148481786','G','G'),
+(1,'rs281875215','A','A'),
+(1,'rs567795279','A','A'),
+(1,'rs1110052','A','T'),
+(2,'rs63750082','A','A'),
+(2,'rs121912582','T','T'),
+(2,'rs9289231','G','G'),
+(2,'rs11240777','A','A'),
+(2,'rs55932059','C','C'),
+(3,'rs1057519915','C','C'),
+(3,'rs886041402','A','A'),
+(3,'rs80356732','A','A'),
+(3,'rs1402429085','C','C'),
+(3,'rs768091235','T','T'),
+(4,'rs63750082','C','C'),
+(4,'rs387906914','C','C'),
+(4,'rs1651769432','A','A'),
+(4,'rs267607102','G','G');
+
+insert into disease(name) values
+('Breast Cancer'),
+('Alzheimers disease'),
+('Prostate Cancer'),
+('Coronary heart disease'),
+('Psoriasis'),
+('Dermatitis'),
+('Dementia');
+
+insert into rsid values
+('rs148481786','A'),
+('rs1057519915','A'),
+('rs63750082','G'),
+('rs121912582','C'),
+('rs864622011','C'),
+('rs9289231','T'),
+('rs387906914','T'),
+('rs281875215','G'),
+('rs886041402','G'),
+('rs1651769432','G'),
+('rs567795279','T'),
+('rs267607102','A'),
+('rs80356732','C');
+
+insert into mutated_rsid values
+('rs148481786','G',1),
+('rs1057519915','C',1),
+('rs63750082','A',2),
+('rs63750082','C',2),
+('rs121912582','T',3),
+('rs864622011','T',3),
+('rs9289231','G',4),
+('rs387906914','C',5),
+('rs281875215','A',5),
+('rs886041402','A',5),
+('rs1651769432','A',6),
+('rs567795279','A',6),
+('rs267607102','G',7),
+('rs80356732','A',7);

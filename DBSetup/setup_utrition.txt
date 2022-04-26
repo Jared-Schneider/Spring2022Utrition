@@ -1,0 +1,3 @@
+psql -f [PATH]/DBSetup/create_db.txt
+psql -f [PATH]/DBSetup/populate_db.txt
+psql -f [PATH]/DBSetup/populate_sample_gene_info.txt

@@ -1,0 +1,41 @@
+To do testing on the postgreSQL database, we used a python script to keep track of which test cases pass and which should fail. In this file you will find instructions on how to run the test cases. 
+
+
+How to install needed libraries and run the script:
+To run these postgreSQL commands from a python script you need to install pip so that you can install python libraries. use the command:
+	'sudo apt-get install python3-pip'
+	
+Then, install psycopg2 with pip:
+	'pip install psycopg2-binary'
+	
+To run the python script from an ubuntu enviornment, you will use the command 'python3 check_test_cases.py' with a few command line arguements. 
+The first argument will be the name of the text file containing all the postgreSQL commands you wish to execute. The next one will be a number
+specifiying how many test cases you expect to pass. The next one will be how many test cases you expect to fail. The final arguement is how many 
+inserts there are at the beginning of the file. The reason for this is because, if you are trying to test inserts into a table that has a foreign key, 
+you will get an error if the foreign key is referencing a value that does not exist in its respective table. If the program is missing a 
+command line arguement, or the arguements are of the wrong type, then the script has undefined behavior. Here is an example of using this script:
+	'python3 check_test_cases.py users.txt 18 17 0'
+	
+	
+
+
+How to structure your test case files:
+The test case files should structered such that they can be read into psql directly, without any python intermediary. As such, the first line should
+contain the line "\connect <database>", where <database> is the name of the database that you wish to connect to. 
+All test cases should be on a single line. This is done so that the python script can read them more easily. 
+
+Here is an example of a test case on one line:
+	"INSERT INTO users (id,first_name,last_name,email) VALUES (5,'Jared','Schneider','jaredschneider@gmail.com');"
+	
+Here is an example of a test case on mulpile lines, which will cause the script to have undefined behavior
+	"INSERT INTO users (id,first_name,last_name,email) 
+	VALUES (5,'Jared','Schneider','jaredschneider@gmail.com');"
+	
+Your file may contain psql comments, which must be on their own line beginning with "--". The python script will ignore these. 
+
+The file should be structured such that after the first line containing "\connect database", all of the prerequisites INSERT statements should be listed. Then, if there are 25 test cases that should pass, they should all be written in the file before any of the test cases that should fail. Then if there are 30 test cases that should fail, they should all be written in the file after any of the test cases that should pass. This is crucial, as it allows the script to easily determine if there were any test cases that passed when they should have failed, and vise versa. If you had a file named "newtestcases.txt" organized as described above with 10 prerequisite insert statements, the command to run the program would be
+	'python3 check_test_cases.py newtestcases.txt 25 30'
+	
+You can find the number of test cases that should pass/fail and the number of prerequisites by looking in the file who's test cases you are running. As you add/remove test cases, please update the respective numbers so that it accurately reflects the contents of the file. 
+
+
